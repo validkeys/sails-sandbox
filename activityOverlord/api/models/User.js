@@ -28,6 +28,17 @@ module.exports = {
     },
     encryptedPassword: {
       type: "string"
+    },
+
+    // in order to remove fields from all API
+    // requests for this model
+    toJSON: function() {
+      var obj = this.toObject();
+
+      // encrypted passwords should not be sent
+      // back to the client
+      delete obj.encryptedPassword;
+      return obj;
     }
   },
 
