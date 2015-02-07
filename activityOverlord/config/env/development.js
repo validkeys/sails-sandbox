@@ -19,6 +19,11 @@ module.exports = {
 
   models: {
     connection: 'postgresql'
+  },
+
+  redis: {
+    host: "localhost",
+    port: 6379
   }
 
 };
