@@ -22,6 +22,11 @@ module.exports = {
     return this._fetch(url);
   },
 
+  getRelated: function( type, id, relatedType ) {
+    var url = this.host + "/" + type + "/" + id + "/" + relatedType;
+    return this._fetch(url);
+  },
+
   _fetch: function(url, params) {
     // add the apiKey
     if (!params) params = [];
