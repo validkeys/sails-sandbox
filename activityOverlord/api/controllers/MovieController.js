@@ -22,11 +22,12 @@ module.exports = {
   },
 
   index: function (req, res, next) {
-    Movie.find().then( function (movies) {
-      res.json(movies);
-    }).catch(function(err) {
-      return next(err);
-    });
+    // Movie.find().then( function (movies) {
+    //   res.json(movies);
+    // }).catch(function(err) {
+    //   return next(err);
+    // });
+    next();
   },
 
   show: function (req, res, next) {
