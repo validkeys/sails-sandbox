@@ -8,21 +8,13 @@ var kue  = require('kue')
   });
 
 // {message: "asdf"}
-jobs.process("MyWorker", function( job, done ) {
-  if (!job.data.message) return done(new Error("No message supplied!"));
-  console.log("*** MY WORKER RUNNING! Message: \""+job.data.message+"\"****");
-  done();
-});
-
-jobs.process("MyMathWorker", function( job, done) {
-  // look for job.data.num
-  var num = job.data.num;
-  // add 10 to it
-  var newNum = parseInt(num) + 10;
-  // console.log that out
-  console.log("MathWorker :: You gave me " + num + " and I added 10 to it to get: " + newNum);
-  // call done
-  done();
+jobs.process("TmdbImportWorker", function( job, done ) {
+  if (!job.data.id || !job.data.type) return done(new Error("No Type or ID supplied!"));
+  console.log("*** Importing movie with TMDB ID ("+job.data.id+")! ****");
+  TmdbService.getInfo( job.data.type, job.data.id ).then(function(result){ 
+    console.log("GOT RESULT!", result);
+    done();
+  });
 });
 
 jobs.on("error", function (e) {

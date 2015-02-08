@@ -4,8 +4,19 @@ module.exports = {
   search: function(req, res, next) {
     if (!req.param("q")) return next({err: ["You must provide a search query"]});
 
-    TmdbService.search("movie", req.param("q")).then(function(data) {
+    var type = req.param("type") || "movie";
+
+    TmdbService.search(type, req.param("q")).then(function(data) {
       console.log("PROMISE RESOLVED! " + data.results.length + " Results!");
+      _.each(data.results, function( result ){ 
+        sails.config.jobs.create("TmdbImportWorker", {id: result.id, type: type}).save( function(err) {
+          if (!err) {
+            console.log( job.id );
+          } else {
+            console.log(err);
+          }
+        });
+      });
       res.json(data.results);
     });
   },
